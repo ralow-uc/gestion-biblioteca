@@ -1,0 +1,171 @@
+===========================================================================
+ Registro: CRUD del microservicio contra Oracle (perfil 'oracle')
+ Microservicio gestion-biblioteca
+===========================================================================
+
+Base      : FULLSTACK3 (Oracle Autonomous Database)
+Servicio  : fullstack3_tp  (TNS alias del Wallet, conexion mTLS)
+Motor     : Oracle AI Database 26ai Enterprise Edition 23.26.4.1.0
+Arranque  : ./scripts/run-oracle.sh
+
+Hibernate arranco con spring.jpa.hibernate.ddl-auto=validate: el mapeo JPA
+de la entidad Libro coincide con la tabla LIBRO real de Oracle.
+
+
+$ GET /api/estado
+HTTP/1.1 200 
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 22 Oct 2026 19:54:26 GMT
+
+{
+  "estado" : "OK",
+  "servicio" : "gestion-biblioteca",
+  "baseDeDatos" : {
+    "conectada" : true,
+    "motor" : "Oracle Oracle AI Database 26ai Enterprise Edition Release 23.26.4.1.0 - Production\nVersion 23.26.4.1.0"
+  }
+}
+
+$ GET /api/libros
+[ {
+  "id" : 1,
+  "titulo" : "Cien anos de soledad",
+  "autor" : "Gabriel Garcia Marquez",
+  "anioPublicacion" : 1967,
+  "genero" : "Realismo magico"
+}, {
+  "id" : 2,
+  "titulo" : "La casa de los espiritus",
+  "autor" : "Isabel Allende",
+  "anioPublicacion" : 1982,
+  "genero" : "Realismo magico"
+}, {
+  "id" : 3,
+  "titulo" : "Clean Code",
+  "autor" : "Robert C. Martin",
+  "anioPublicacion" : 2008,
+  "genero" : "Informatica"
+}, {
+  "id" : 4,
+  "titulo" : "Learning Spring Boot 3.0",
+  "autor" : "Greg L. Turnquist",
+  "anioPublicacion" : 2022,
+  "genero" : "Informatica"
+} ]
+
+$ POST /api/libros (crear)
+HTTP/1.1 201 
+Location: http://localhost:8080/api/libros/5
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 22 Oct 2026 19:54:42 GMT
+
+{
+  "id" : 5,
+  "titulo" : "Rayuela",
+  "autor" : "Julio Cortazar",
+  "anioPublicacion" : 1963,
+  "genero" : "Novela"
+}
+
+$ GET /api/libros/6 (por ID)
+HTTP/1.1 200 
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 22 Oct 2026 19:54:42 GMT
+
+{
+  "id" : 6,
+  "titulo" : "El Aleph",
+  "autor" : "Jorge Luis Borges",
+  "anioPublicacion" : 1949,
+  "genero" : "Cuento"
+}
+
+$ PUT /api/libros/6 (actualizar)
+HTTP/1.1 200 
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Thu, 22 Oct 2026 19:54:42 GMT
+
+{
+  "id" : 6,
+  "titulo" : "El Aleph",
+  "autor" : "Jorge Luis Borges",
+  "anioPublicacion" : 1949,
+  "genero" : "Cuento fantastico"
+}
+
+$ DELETE /api/libros/6 (eliminar)
+HTTP/1.1 204 
+Date: Thu, 22 Oct 2026 19:54:42 GMT
+
+
+
+$ GET /api/libros/6 (tras eliminar -> 404)
+HTTP/1.1 404 
+Content-Type: application/problem+json
+Transfer-Encoding: chunked
+Date: Thu, 22 Oct 2026 19:54:42 GMT
+
+{
+  "type" : "about:blank",
+  "title" : "Libro no encontrado",
+  "status" : 404,
+  "detail" : "No existe un libro con el ID 6",
+  "instance" : "/api/libros/6"
+}
+
+$ GET /api/libros?titulo=clean (filtro)
+[ {
+  "id" : 3,
+  "titulo" : "Clean Code",
+  "autor" : "Robert C. Martin",
+  "anioPublicacion" : 2008,
+  "genero" : "Informatica"
+} ]
+
+$ POST invalido (validacion -> 400)
+HTTP/1.1 400 
+Content-Type: application/problem+json
+Transfer-Encoding: chunked
+Date: Thu, 22 Oct 2026 19:54:42 GMT
+Connection: close
+
+{
+  "type" : "about:blank",
+  "title" : "Datos del libro invalidos",
+  "status" : 400,
+  "detail" : "Revisa los campos indicados en 'errores'",
+  "instance" : "/api/libros",
+  "errores" : {
+    "genero" : "El genero es obligatorio",
+    "anioPublicacion" : "El anio de publicacion debe ser posterior a 1450",
+    "titulo" : "El titulo es obligatorio"
+  }
+}
+
+===========================================================================
+ Validacion cruzada en la base (Database Actions, posterior al CRUD)
+===========================================================================
+
+SELECT ID, TITULO, AUTOR, ANIO_PUBLICACION, GENERO FROM LIBRO ORDER BY ID;
+
+  ID | TITULO                   | AUTOR                  | ANIO | GENERO
+  ---+--------------------------+------------------------+------+-----------------
+   1 | Cien anos de soledad     | Gabriel Garcia Marquez | 1967 | Realismo magico
+   2 | La casa de los espiritus | Isabel Allende         | 1982 | Realismo magico
+   3 | Clean Code               | Robert C. Martin       | 2008 | Informatica
+   4 | Learning Spring Boot 3.0 | Greg L. Turnquist      | 2022 | Informatica
+   5 | Rayuela                  | Julio Cortazar         | 1963 | Novela
+
+  Total: 5 filas.
+
+  -> El ID 5 (Rayuela) fue creado por el POST del microservicio y quedo
+     persistido en Oracle Cloud.
+  -> El ID 6 (El Aleph) fue creado y luego eliminado por el DELETE del
+     microservicio; ya no aparece en la tabla.
+
+  Esto confirma que las operaciones del CRUD llegan efectivamente a la
+  base de datos Oracle en la nube a traves de JPA.

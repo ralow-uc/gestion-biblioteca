@@ -1,0 +1,150 @@
+===========================================================================
+ Registro de ejecucion del CRUD por HTTP
+
+ Perfil: local (H2 en memoria, MODE=Oracle). Generado con curl.
+ Reproducir con: ./mvnw spring-boot:run   y luego scripts de curl / Postman.
+===========================================================================
+
+$ curl -i http://localhost:8080/api/estado
+HTTP/1.1 200 
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Wed, 21 Oct 2026 13:46:00 GMT
+
+{
+  "estado" : "OK",
+  "servicio" : "gestion-biblioteca",
+  "baseDeDatos" : {
+    "conectada" : true,
+    "motor" : "H2 2.3.232 (2024-08-11)"
+  }
+}
+
+$ curl -i http://localhost:8080/api/libros
+HTTP/1.1 200 
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Wed, 21 Oct 2026 13:46:00 GMT
+
+[ {
+  "id" : 1,
+  "titulo" : "Cien anos de soledad",
+  "autor" : "Gabriel Garcia Marquez",
+  "anioPublicacion" : 1967,
+  "genero" : "Realismo magico"
+}, {
+  "id" : 2,
+  "titulo" : "La casa de los espiritus",
+  "autor" : "Isabel Allende",
+  "anioPublicacion" : 1982,
+  "genero" : "Realismo magico"
+}, {
+  "id" : 3,
+  "titulo" : "Clean Code",
+  "autor" : "Robert C. Martin",
+  "anioPublicacion" : 2008,
+  "genero" : "Informatica"
+}, {
+  "id" : 4,
+  "titulo" : "Learning Spring Boot 3.0",
+  "autor" : "Greg L. Turnquist",
+  "anioPublicacion" : 2022,
+  "genero" : "Informatica"
+} ]
+
+$ curl -i http://localhost:8080/api/libros/1
+HTTP/1.1 200 
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Wed, 21 Oct 2026 13:46:00 GMT
+
+{
+  "id" : 1,
+  "titulo" : "Cien anos de soledad",
+  "autor" : "Gabriel Garcia Marquez",
+  "anioPublicacion" : 1967,
+  "genero" : "Realismo magico"
+}
+
+$ POST /api/libros
+HTTP/1.1 201 
+Location: http://localhost:8080/api/libros/5
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Wed, 21 Oct 2026 13:46:01 GMT
+
+{
+  "id" : 5,
+  "titulo" : "Rayuela",
+  "autor" : "Julio Cortazar",
+  "anioPublicacion" : 1963,
+  "genero" : "Novela"
+}
+
+$ PUT /api/libros/5
+HTTP/1.1 200 
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Wed, 21 Oct 2026 13:46:06 GMT
+
+{
+  "id" : 5,
+  "titulo" : "Rayuela",
+  "autor" : "Julio Cortazar",
+  "anioPublicacion" : 1963,
+  "genero" : "Novela experimental"
+}
+
+$ DELETE /api/libros/5
+HTTP/1.1 204 
+Date: Wed, 21 Oct 2026 13:46:06 GMT
+
+
+
+$ GET /api/libros/5 (tras eliminar)
+HTTP/1.1 404 
+Content-Type: application/problem+json
+Transfer-Encoding: chunked
+Date: Wed, 21 Oct 2026 13:46:06 GMT
+
+{
+  "type" : "about:blank",
+  "title" : "Libro no encontrado",
+  "status" : 404,
+  "detail" : "No existe un libro con el ID 5",
+  "instance" : "/api/libros/5"
+}
+
+$ GET /api/libros?titulo=clean
+HTTP/1.1 200 
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Wed, 21 Oct 2026 13:46:06 GMT
+
+[ {
+  "id" : 3,
+  "titulo" : "Clean Code",
+  "autor" : "Robert C. Martin",
+  "anioPublicacion" : 2008,
+  "genero" : "Informatica"
+} ]
+
+$ POST invalido (sin titulo)
+HTTP/1.1 400 
+Content-Type: application/problem+json
+Transfer-Encoding: chunked
+Date: Wed, 21 Oct 2026 13:46:06 GMT
+Connection: close
+
+{
+  "type" : "about:blank",
+  "title" : "Datos del libro invalidos",
+  "status" : 400,
+  "detail" : "Revisa los campos indicados en 'errores'",
+  "instance" : "/api/libros",
+  "errores" : {
+    "genero" : "El genero es obligatorio",
+    "titulo" : "El titulo es obligatorio",
+    "anioPublicacion" : "El anio de publicacion debe ser posterior a 1450"
+  }
+}

@@ -1,0 +1,16 @@
+===========================================================================
+ Resultado de las pruebas automatizadas  (./mvnw test)
+ Microservicio gestion-biblioteca
+===========================================================================
+
+[INFO] Running com.biblioteca.gestionbiblioteca.repository.LibroRepositoryTest
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.472 s -- in com.biblioteca.gestionbiblioteca.repository.LibroRepositoryTest
+[INFO] Running com.biblioteca.gestionbiblioteca.controller.LibroControllerTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.686 s -- in com.biblioteca.gestionbiblioteca.controller.LibroControllerTest
+[INFO] Running com.biblioteca.gestionbiblioteca.GestionBibliotecaApplicationTests
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.127 s -- in com.biblioteca.gestionbiblioteca.GestionBibliotecaApplicationTests
+[INFO] Running com.biblioteca.gestionbiblioteca.service.LibroServiceImplTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.030 s -- in com.biblioteca.gestionbiblioteca.service.LibroServiceImplTest
+[INFO] Tests run: 17, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS
+[INFO] Total time:  3.156 s

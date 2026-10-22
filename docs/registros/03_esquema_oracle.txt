@@ -1,0 +1,44 @@
+===========================================================================
+ Registro: creacion del esquema en Oracle Autonomous Database
+ Microservicio gestion-biblioteca
+===========================================================================
+
+Base de datos
+-------------
+  Nombre BD         : FULLSTACK3
+  Tipo              : Oracle Autonomous Database (Always Free)
+  Workload          : Procesamiento de transacciones (OLTP)
+  Version           : Oracle Database 26ai
+  Estado            : Disponible / Lectura-escritura
+  mTLS              : Requerido (conexion con Wallet)
+
+Verificacion de conexion
+------------------------
+  SQL  : SELECT 1 AS VERIFICACION_FS3 FROM DUAL;
+  -> VERIFICACION_FS3 = 1   (1 fila)
+
+Ejecucion de scripts/01_crear_tabla_libro.sql
+--------------------------------------------------------------
+  CREATE TABLE LIBRO                 -> Table LIBRO created.
+  CREATE SEQUENCE LIBRO_SEQ          -> Sequence LIBRO_SEQ created.
+  CREATE INDEX IX_LIBRO_TITULO       -> Index IX_LIBRO_TITULO created.
+  CREATE INDEX IX_LIBRO_GENERO       -> Index IX_LIBRO_GENERO created.
+  INSERT x4                          -> 1 row inserted. (x4)
+  COMMIT                             -> Commit complete.
+  COMMENT ON x6                      -> Comment created. (x6)
+
+Verificacion final
+------------------
+  SQL  : SELECT ID, TITULO, AUTOR, ANIO_PUBLICACION, GENERO
+         FROM LIBRO ORDER BY ID;
+
+  ID | TITULO                   | AUTOR                  | ANIO | GENERO
+  ---+--------------------------+------------------------+------+-----------------
+   1 | Cien anos de soledad     | Gabriel Garcia Marquez | 1967 | Realismo magico
+   2 | La casa de los espiritus | Isabel Allende         | 1982 | Realismo magico
+   3 | Clean Code               | Robert C. Martin       | 2008 | Informatica
+   4 | Learning Spring Boot 3.0 | Greg L. Turnquist      | 2022 | Informatica
+
+  Total: 4 filas. Los ID fueron generados por la secuencia LIBRO_SEQ.
+
+Ejecutado desde Oracle Database Actions (SQL).
