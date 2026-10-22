@@ -11,7 +11,8 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 /**
- * Carga algunos libros de ejemplo al iniciar con el perfil "local" (H2 en memoria),
+ * Carga un catalogo de obras de autores chilenos al iniciar con el perfil "local"
+ * (H2 en memoria),
  * para poder probar de inmediato las solicitudes GET, PUT y DELETE en Postman.
  *
  * No se ejecuta con el perfil "oracle": alli los datos los administra la base real.
@@ -35,10 +36,17 @@ public class DatosDeEjemplo implements CommandLineRunner {
         }
 
         libroRepository.saveAll(List.of(
-                new Libro(null, "Cien anos de soledad", "Gabriel Garcia Marquez", 1967, "Realismo magico"),
-                new Libro(null, "La casa de los espiritus", "Isabel Allende", 1982, "Realismo magico"),
-                new Libro(null, "Clean Code", "Robert C. Martin", 2008, "Informatica"),
-                new Libro(null, "Learning Spring Boot 3.0", "Greg L. Turnquist", 2022, "Informatica")));
+                new Libro(null, "Desolación", "Gabriela Mistral", 1922, "Poesía"),
+                new Libro(null, "Veinte poemas de amor y una canción desesperada", "Pablo Neruda", 1924, "Poesía"),
+                new Libro(null, "Papelucho", "Marcela Paz", 1947, "Literatura infantil"),
+                new Libro(null, "Hijo de ladrón", "Manuel Rojas", 1951, "Novela"),
+                new Libro(null, "Poemas y antipoemas", "Nicanor Parra", 1954, "Antipoesía"),
+                new Libro(null, "El obsceno pájaro de la noche", "José Donoso", 1970, "Novela"),
+                new Libro(null, "La casa de los espíritus", "Isabel Allende", 1982, "Realismo mágico"),
+                new Libro(null, "Ardiente paciencia", "Antonio Skármeta", 1985, "Novela"),
+                new Libro(null, "Un viejo que leía novelas de amor", "Luis Sepúlveda", 1989, "Novela"),
+                new Libro(null, "Los detectives salvajes", "Roberto Bolaño", 1998, "Novela"),
+                new Libro(null, "Formas de volver a casa", "Alejandro Zambra", 2011, "Novela")));
 
         log.info("Perfil local: se cargaron {} libros de ejemplo en H2", libroRepository.count());
     }

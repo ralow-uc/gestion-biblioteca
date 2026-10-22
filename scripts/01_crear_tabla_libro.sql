@@ -46,19 +46,41 @@ CREATE INDEX IX_LIBRO_TITULO ON LIBRO (UPPER(TITULO));
 CREATE INDEX IX_LIBRO_GENERO ON LIBRO (UPPER(GENERO));
 
 -- ---------------------------------------------------------------------------
--- 4. Datos iniciales de prueba
+-- 4. Datos iniciales: obras de autores chilenos
 -- ---------------------------------------------------------------------------
-INSERT INTO LIBRO (ID, TITULO, AUTOR, ANIO_PUBLICACION, GENERO)
-VALUES (LIBRO_SEQ.NEXTVAL, 'Cien anos de soledad', 'Gabriel Garcia Marquez', 1967, 'Realismo magico');
 
 INSERT INTO LIBRO (ID, TITULO, AUTOR, ANIO_PUBLICACION, GENERO)
-VALUES (LIBRO_SEQ.NEXTVAL, 'La casa de los espiritus', 'Isabel Allende', 1982, 'Realismo magico');
+VALUES (LIBRO_SEQ.NEXTVAL, 'Desolación', 'Gabriela Mistral', 1922, 'Poesía');
 
 INSERT INTO LIBRO (ID, TITULO, AUTOR, ANIO_PUBLICACION, GENERO)
-VALUES (LIBRO_SEQ.NEXTVAL, 'Clean Code', 'Robert C. Martin', 2008, 'Informatica');
+VALUES (LIBRO_SEQ.NEXTVAL, 'Veinte poemas de amor y una canción desesperada', 'Pablo Neruda', 1924, 'Poesía');
 
 INSERT INTO LIBRO (ID, TITULO, AUTOR, ANIO_PUBLICACION, GENERO)
-VALUES (LIBRO_SEQ.NEXTVAL, 'Learning Spring Boot 3.0', 'Greg L. Turnquist', 2022, 'Informatica');
+VALUES (LIBRO_SEQ.NEXTVAL, 'Papelucho', 'Marcela Paz', 1947, 'Literatura infantil');
+
+INSERT INTO LIBRO (ID, TITULO, AUTOR, ANIO_PUBLICACION, GENERO)
+VALUES (LIBRO_SEQ.NEXTVAL, 'Hijo de ladrón', 'Manuel Rojas', 1951, 'Novela');
+
+INSERT INTO LIBRO (ID, TITULO, AUTOR, ANIO_PUBLICACION, GENERO)
+VALUES (LIBRO_SEQ.NEXTVAL, 'Poemas y antipoemas', 'Nicanor Parra', 1954, 'Antipoesía');
+
+INSERT INTO LIBRO (ID, TITULO, AUTOR, ANIO_PUBLICACION, GENERO)
+VALUES (LIBRO_SEQ.NEXTVAL, 'El obsceno pájaro de la noche', 'José Donoso', 1970, 'Novela');
+
+INSERT INTO LIBRO (ID, TITULO, AUTOR, ANIO_PUBLICACION, GENERO)
+VALUES (LIBRO_SEQ.NEXTVAL, 'La casa de los espíritus', 'Isabel Allende', 1982, 'Realismo mágico');
+
+INSERT INTO LIBRO (ID, TITULO, AUTOR, ANIO_PUBLICACION, GENERO)
+VALUES (LIBRO_SEQ.NEXTVAL, 'Ardiente paciencia', 'Antonio Skármeta', 1985, 'Novela');
+
+INSERT INTO LIBRO (ID, TITULO, AUTOR, ANIO_PUBLICACION, GENERO)
+VALUES (LIBRO_SEQ.NEXTVAL, 'Un viejo que leía novelas de amor', 'Luis Sepúlveda', 1989, 'Novela');
+
+INSERT INTO LIBRO (ID, TITULO, AUTOR, ANIO_PUBLICACION, GENERO)
+VALUES (LIBRO_SEQ.NEXTVAL, 'Los detectives salvajes', 'Roberto Bolaño', 1998, 'Novela');
+
+INSERT INTO LIBRO (ID, TITULO, AUTOR, ANIO_PUBLICACION, GENERO)
+VALUES (LIBRO_SEQ.NEXTVAL, 'Formas de volver a casa', 'Alejandro Zambra', 2011, 'Novela');
 
 COMMIT;
 
